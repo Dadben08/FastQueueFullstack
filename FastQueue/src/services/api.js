@@ -1,5 +1,3 @@
-// src/services/api.js
-
 import axios from "axios";
 
 const api = axios.create({
@@ -9,18 +7,14 @@ const api = axios.create({
   },
 });
 
-// Attach JWT token automatically
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("fastqueue_token");
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
 
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+  return config;
+});
 
 export default api;
