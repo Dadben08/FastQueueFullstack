@@ -1,0 +1,326 @@
+import React, { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import Features from "./components/Features";
+import Pricing from "./components/Pricing";
+import Howitworks from "./components/Howitworks";
+import Faq from "./components/Faq";
+import Contact from "./components/Contact";
+import Footer from "./components/Footer";
+import About from "./components/About";
+import ScrollToTop from "./components/ScrollToTop";
+import CompanyRegistration from "./components/CompanyRegistration";
+import VerifyEmail from "./components/VerifyEmail";
+import RegistrationSuccess from "./components/RegistrationSuccess";
+
+// QUEUE DISPLAY
+import DisplayQueue from "./pages/dashboard/QueueDisplay";
+
+import FeaturesPage from "./pages/FeaturesPage";
+import PricingPage from "./pages/PricingPage";
+import AuthPage from "./pages/AuthPage";
+import DashboardPage from "./pages/dashboard/DashboardPage";
+import OrganizationSetup from "./pages/OrganizationSetup";
+import RegistrationDashBoard from "./pages/Registrationdashboard";
+import NotFound from "./pages/NotFound";
+
+import RequireAuth from "./guards/RequireAuth";
+import SetupGuard from "./guards/SetupGuard";
+
+import Industry from "./components/Industry";
+import School from "./components/School";
+import Bank from "./components/Bank";
+import Hospital from "./components/Hospital";
+import Restaurant from "./components/Restaurant";
+import Retail from "./components/Retail";
+import Government from "./components/Government";
+import Warehouse from "./components/Warehouse";
+import Hotel from "./components/Hotel";
+import Barber from "./components/Barber";
+import PaymentPage from "./components/PaymentPage";
+
+
+// ---------------- HOME PAGE ----------------
+
+const HomePage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      const sectionId = location.state.scrollTo;
+
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+
+        if (element) {
+          const navbarHeight = 80;
+
+          const elementPosition =
+            element.getBoundingClientRect().top +
+            window.pageYOffset;
+
+          window.scrollTo({
+            top: elementPosition - navbarHeight,
+            behavior: "smooth",
+          });
+        }
+
+        navigate("/", {
+          replace: true,
+          state: {},
+        });
+      }, 300);
+    }
+  }, [location, navigate]);
+
+  return (
+    <>
+      <Hero />
+
+      <section id="features">
+        <Features />
+      </section>
+
+      <div className="max-w-7xl mx-auto pt-20 px-6">
+
+        <section id="about">
+          <About />
+        </section>
+
+        <section id="pricing">
+          <Pricing />
+        </section>
+
+        <section id="howitworks">
+          <Howitworks />
+        </section>
+
+        <section id="faq">
+          <Faq />
+        </section>
+
+        <section id="contact">
+          <Contact />
+        </section>
+
+      </div>
+    </>
+  );
+};
+
+
+// ---------------- APP ----------------
+
+function App() {
+
+  const LayoutWrapper = ({ children }) => (
+    <>
+      <Navbar />
+
+      <div className="pt-24">
+        {children}
+      </div>
+
+      <Footer />
+    </>
+  );
+
+  return (
+    <Router>
+
+      <ScrollToTop />
+
+      <Routes>
+
+        {/* AUTH */}
+        <Route
+          path="/signup"
+          element={<AuthPage />}
+        />
+
+        <Route
+          path="/login"
+          element={<AuthPage />}
+        />
+
+
+        {/* PAYMENT */}
+        <Route
+          path="/payment"
+          element={<PaymentPage />}
+        />
+
+
+        {/* DASHBOARD */}
+        <Route
+          path="/dashboard"
+          element={<DashboardPage />}
+        />
+
+
+        {/* ========================= */}
+        {/* QUEUE DISPLAY SCREEN */}
+        {/* ========================= */}
+
+        <Route
+          path="/display"
+          element={<DisplayQueue />}
+        />
+
+
+        {/* INDUSTRIES */}
+
+        <Route
+          path="/industry"
+          element={<Industry />}
+        />
+
+        <Route
+          path="/school"
+          element={<School />}
+        />
+
+        <Route
+          path="/banks"
+          element={<Bank />}
+        />
+
+        <Route
+          path="/hospitals"
+          element={<Hospital />}
+        />
+
+        <Route
+          path="/restaurants"
+          element={<Restaurant />}
+        />
+
+        <Route
+          path="/retail"
+          element={<Retail />}
+        />
+
+        <Route
+          path="/government"
+          element={<Government />}
+        />
+
+        <Route
+          path="/warehouses"
+          element={<Warehouse />}
+        />
+
+        <Route
+          path="/hotels"
+          element={<Hotel />}
+        />
+
+        <Route
+          path="/barber"
+          element={<Barber />}
+        />
+
+
+        {/* COMPANY */}
+
+        <Route
+          path="/company-registration"
+          element={<CompanyRegistration />}
+        />
+
+        <Route
+          path="/verify-email"
+          element={<VerifyEmail />}
+        />
+
+        <Route
+          path="/registration-success"
+          element={<RegistrationSuccess />}
+        />
+
+
+        {/* SETUP */}
+
+        <Route
+          path="/setup"
+          element={
+            <RequireAuth>
+              <SetupGuard>
+                <OrganizationSetup />
+              </SetupGuard>
+            </RequireAuth>
+          }
+        />
+
+
+        {/* REGISTRATION DASHBOARD */}
+
+        <Route
+          path="/regdashboard"
+          element={<RegistrationDashBoard />}
+        />
+
+
+        {/* HOME */}
+
+        <Route
+          path="/"
+          element={
+            <LayoutWrapper>
+              <HomePage />
+            </LayoutWrapper>
+          }
+        />
+
+
+        {/* FEATURES */}
+
+        <Route
+          path="/features"
+          element={
+            <LayoutWrapper>
+              <FeaturesPage />
+            </LayoutWrapper>
+          }
+        />
+
+
+        {/* PRICING */}
+
+        <Route
+          path="/pricing"
+          element={
+            <LayoutWrapper>
+              <PricingPage />
+            </LayoutWrapper>
+          }
+        />
+
+
+        {/* 404 - MUST STAY LAST */}
+
+        <Route
+          path="*"
+          element={
+            <LayoutWrapper>
+              <NotFound />
+            </LayoutWrapper>
+          }
+        />
+
+      </Routes>
+
+    </Router>
+  );
+}
+
+export default App;
